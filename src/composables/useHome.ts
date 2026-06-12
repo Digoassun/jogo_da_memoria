@@ -1,13 +1,21 @@
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { useRankingStore } from '@/stores/rankingStore'
 import { useUserStore } from '@/stores/userStore'
 import { validatePlayerName } from '@/utils/validatePlayerName'
 
 export const useHome = () => {
   const router = useRouter()
   const userStore = useUserStore()
+  const rankingStore = useRankingStore()
+  const { sortedRankingEntries } = storeToRefs(rankingStore)
   const inputPlayerName = ref('')
   const nameError = ref<string | null>(null)
+
+  const homeRankingEntries = computed(() => {
+    return sortedRankingEntries.value.slice(0, 5)
+  })
 
   onMounted(() => {
     userStore.clearPlayer()
@@ -29,5 +37,5 @@ export const useHome = () => {
     router.push('/game')
   }
 
-  return { inputPlayerName, nameError, handleSubmit }
+  return { inputPlayerName, nameError, handleSubmit, homeRankingEntries }
 }

@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import GameBoard from '@/components/game/GameBoard.vue'
 import GameHeader from '@/components/game/GameHeader.vue'
+import VictoryModal from '@/components/game/VictoryModal.vue'
 import { useGame } from '@/composables/useGame'
 
-const { boardCards, isCardVisible, onCardClick, playerName, moves, handleGoHome } = useGame()
+const {
+  boardCards,
+  isCardVisible,
+  onCardClick,
+  playerName,
+  moves,
+  showVictoryModal,
+  lastEntryId,
+  handleGoHome,
+  handleVictoryGoHome,
+} = useGame()
 </script>
 
 <template>
@@ -17,5 +28,13 @@ const { boardCards, isCardVisible, onCardClick, playerName, moves, handleGoHome 
         @card-click="onCardClick"
       />
     </div>
+
+    <VictoryModal
+      v-if="showVictoryModal && lastEntryId"
+      :entry-id="lastEntryId"
+      :player-name="playerName"
+      :moves="moves"
+      @go-home="handleVictoryGoHome"
+    />
   </main>
 </template>

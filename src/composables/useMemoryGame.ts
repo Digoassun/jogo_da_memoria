@@ -9,12 +9,7 @@ type MemoryGameCallbacks = {
 
 export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
   const boardCards = computed<BoardCard[]>(() => {
-    return (
-      [...CARDS, ...CARDS]
-        .map((card, id) => ({ ...card, id }))
-        // .sort(() => Math.random() - 0.5)
-        .sort(() => Math.floor(Math.random() * 10))
-    )
+    return [...CARDS, ...CARDS].map((card, id) => ({ ...card, id })).sort(() => Math.random() - 0.5)
   })
 
   const isFacingUp = reactive<number[]>([])
