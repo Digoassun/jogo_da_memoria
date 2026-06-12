@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-const userName = ref<string>('')
-import { useRouter } from 'vue-router'
+import UserNameForm from '@/components/home/UserNameForm.vue'
+import { useHome } from '@/composables/useHome'
 
-const router = useRouter()
-
-const goGame = () =>{
- router.push('/game')
-}
+const { inputPlayerName, nameError, handleSubmit } = useHome()
 </script>
 
 <template>
-    <form @submit="goGame()">
-        <input v-model="userName" name="userName" placeholder="Nome do Usuário">
-        <button type="submit">Seguir para Jogo</button>
-    </form>
+  <main class="flex min-h-screen items-center justify-center p-4">
+    <section class="flex flex-col items-center justify-center gap-4 w-64">
+      <h1 class="text-2xl font-bold">Jogo da Memória</h1>
+      <UserNameForm v-model="inputPlayerName" :error="nameError" @submit="handleSubmit" />
+    </section>
+  </main>
 </template>
