@@ -18,3 +18,5 @@ export const CARD_FACES: Record<CardRank, string> = {
 export const getCardFace = (value: CardRank): string => {
   return CARD_FACES[value]
 }
+
+export const CARD_IMAGE_URLS = [CARD_BACK, ...Object.values(CARD_FACES)]

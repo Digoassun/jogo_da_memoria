@@ -15,10 +15,7 @@ type Emits = {
 const { card, isVisible } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const cardImage = computed(() => {
-  if (!isVisible) return CARD_BACK
-  return getCardFace(card.value)
-})
+const faceUrl = computed(() => getCardFace(card.value))
 
 const cardLabel = computed(() => {
   if (!isVisible) return 'Carta virada para baixo'
@@ -31,9 +28,32 @@ const handleClick = () => {
 </script>
 
 <template>
-  <button type="button"
+  <button
+    type="button"
     class="aspect-5/7 w-full overflow-hidden rounded-md border border-zinc-600 bg-zinc-900 transition hover:border-zinc-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-    :aria-label="cardLabel" @click="handleClick">
-    <img :src="cardImage" :alt="cardLabel" class="h-full w-full object-cover" draggable="false" />
+    :aria-label="cardLabel"
+    @click="handleClick"
+  >
+    <div class="relative h-full w-full">
+      <img
+        :src="CARD_BACK"
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-200"
+        :class="isVisible ? 'opacity-0' : 'opacity-100'"
+        loading="eager"
+        decoding="async"
+        draggable="false"
+      />
+      <img
+        :src="faceUrl"
+        :alt="cardLabel"
+        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-200"
+        :class="isVisible ? 'opacity-100' : 'opacity-0'"
+        loading="eager"
+        decoding="async"
+        draggable="false"
+      />
+    </div>
   </button>
 </template>

@@ -1,10 +1,12 @@
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { CARD_IMAGE_URLS } from '@/constants/cardAssets'
 import { useMemoryGame } from '@/composables/useMemoryGame'
 import { useGameStore } from '@/stores/gameStore'
 import { useRankingStore } from '@/stores/rankingStore'
 import { useUserStore } from '@/stores/userStore'
+import { preloadImages } from '@/utils/preloadImages'
 
 export const useGame = () => {
   const router = useRouter()
@@ -16,6 +18,7 @@ export const useGame = () => {
 
   const showVictoryModal = ref(false)
   const lastEntryId = ref<string | null>(null)
+  const isAssetsReady = ref(false)
 
   const handleVictory = () => {
     if (gameStore.isFinished) return
@@ -25,13 +28,20 @@ export const useGame = () => {
     showVictoryModal.value = true
   }
 
-  const { boardCards, isCardVisible, onCardClick } = useMemoryGame({
+  const { boardCards, isCardVisible, onCardClick: handleCardClick } = useMemoryGame({
     onTurnComplete: () => gameStore.incrementMove(),
     onGameComplete: handleVictory,
   })
 
-  onMounted(() => {
+  const onCardClick = (...args: Parameters<typeof handleCardClick>) => {
+    if (!isAssetsReady.value) return
+    handleCardClick(...args)
+  }
+
+  onMounted(async () => {
     gameStore.resetGame()
+    await preloadImages(CARD_IMAGE_URLS)
+    isAssetsReady.value = true
   })
 
   const handleGoHome = () => {
@@ -48,6 +58,7 @@ export const useGame = () => {
     boardCards,
     isCardVisible,
     onCardClick,
+    isAssetsReady,
     playerName,
     moves,
     showVictoryModal,
