@@ -1,8 +1,10 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import { CARD_IMAGE_URLS } from '@/constants/cardAssets'
 import { useRankingStore } from '@/stores/rankingStore'
 import { useUserStore } from '@/stores/userStore'
+import { preloadImages } from '@/utils/preloadImages'
 import { validatePlayerName } from '@/utils/validatePlayerName'
 
 export const useHome = () => {
@@ -34,6 +36,7 @@ export const useHome = () => {
     }
 
     userStore.setPlayerName(inputPlayerName.value.trim())
+    preloadImages(CARD_IMAGE_URLS)
     router.push('/game')
   }
 

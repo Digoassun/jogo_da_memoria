@@ -8,6 +8,7 @@ const {
   boardCards,
   isCardVisible,
   onCardClick,
+  isAssetsReady,
   playerName,
   moves,
   showVictoryModal,
@@ -25,6 +26,7 @@ const {
         class="w-full"
         :cards="boardCards"
         :is-card-visible="isCardVisible"
+        :is-ready="isAssetsReady"
         @card-click="onCardClick"
       />
     </div>
