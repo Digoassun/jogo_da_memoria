@@ -2,11 +2,19 @@ import { computed, reactive, watch } from 'vue'
 import { CARDS } from '@/data/cards'
 import type { BoardCard } from '@/types/card'
 
-export const useMemoryGame = () => {
+type MemoryGameCallbacks = {
+  onTurnComplete?: () => void
+  onGameComplete?: () => void
+}
+
+export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
   const boardCards = computed<BoardCard[]>(() => {
-    return [...CARDS, ...CARDS]
-      .map((card, id) => ({ ...card, id }))
-      .sort(() => Math.floor(Math.random() * 10))
+    return (
+      [...CARDS, ...CARDS]
+        .map((card, id) => ({ ...card, id }))
+        // .sort(() => Math.random() - 0.5)
+        .sort(() => Math.floor(Math.random() * 10))
+    )
   })
 
   const isFacingUp = reactive<number[]>([])
@@ -23,6 +31,10 @@ export const useMemoryGame = () => {
     return matchedIds.includes(card.id) || isFacingUp.includes(card.id)
   }
 
+  const isGameComplete = computed(
+    () => matchedIds.length === boardCards.value.length && boardCards.value.length > 0,
+  )
+
   const onCardClick = (card: BoardCard) => {
     if (matchedIds.includes(card.id)) return
     if (isFacingUp.includes(card.id)) return
@@ -33,6 +45,8 @@ export const useMemoryGame = () => {
 
   watch(isFacingUp, (facingUpIds) => {
     if (facingUpIds.length !== 2) return
+
+    callbacks?.onTurnComplete?.()
 
     const selectedCards = facingUpIds
       .map((id) => boardCards.value.find((card) => card.id === id))
@@ -49,6 +63,12 @@ export const useMemoryGame = () => {
     setTimeout(() => {
       isFacingUp.length = 0
     }, 1500)
+  })
+
+  watch(isGameComplete, (complete) => {
+    if (complete) {
+      callbacks?.onGameComplete?.()
+    }
   })
 
   return {
