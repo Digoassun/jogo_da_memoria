@@ -147,19 +147,18 @@ Pages → Composables → Stores / Repositories
          Components (apresentação)
 ```
 
-| Camada                        | Responsabilidade                                                    |
-| ----------------------------- | ------------------------------------------------------------------- |
-| **Pages**                     | Montagem da tela (`Home`, `Game`, `NotFound`)                       |
-| **Composables**               | Orquestração e regras de UI (`useHome`, `useGame`, `useMemoryGame`) |
-| **Stores (Pinia)**            | Estado global reativo (`user`, `game`, `ranking`)                   |
-| **Repositories**              | Leitura/escrita no `localStorage`                                   |
-| **Components**                | UI pura, sem lógica de negócio                                      |
-| **Types / Utils / Constants** | Tipos, validações e configurações compartilhadas                    |
+| Camada                        | Responsabilidade                                   |
+| ----------------------------- | -------------------------------------------------- |
+| **Pages**                     | Montagem da tela (`Home`, `Game`, `NotFound`)      |
+| **Composables**               | Orquestração e regras de UI (`useHome`, `useGame`) |
+| **Stores (Pinia)**            | Estado global reativo (`user`, `game`, `ranking`)  |
+| **Repositories**              | Leitura/escrita no `localStorage`                  |
+| **Components**                | UI pura, sem lógica de negócio                     |
+| **Types / Utils / Constants** | Tipos, validações e configurações compartilhadas   |
 
 ### Composables principais
 
-- **`useMemoryGame`** — lógica do tabuleiro: embaralhamento, virar cartas, match/mismatch, vitória.
-- **`useGame`** — integra jogo + stores + preload + modal de vitória.
+- **`useGame`** — lógica do tabuleiro, stores, preload, ranking e modal de vitória.
 - **`useHome`** — formulário de nome, ranking Top 5 e navegação.
 
 ---
@@ -210,7 +209,7 @@ src/
 │   ├── home/          # Formulário de nome
 │   ├── ranking/       # Lista e item do ranking
 │   └── ui/            # Botão, input reutilizáveis
-├── composables/       # useHome, useGame, useMemoryGame
+├── composables/       # useHome, useGame
 ├── constants/         # Assets das cartas, chaves de storage
 ├── data/              # Definição das cartas do baralho
 ├── page/              # Home, Game, NotFound
