@@ -16,13 +16,8 @@ const emit = defineEmits<Emits>()
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-3">
-    <MemoryCard
-      v-for="card in cards"
-      :key="card.id"
-      :card="card"
-      :is-visible="isCardVisible(card)"
-      @click="emit('card-click', $event)"
-    />
+  <div class="grid grid-cols-5 gap-3">
+    <MemoryCard v-for="card in cards" :key="card.id" :card="card" :is-visible="isCardVisible(card)"
+      @click="emit('card-click', $event)" />
   </div>
 </template>

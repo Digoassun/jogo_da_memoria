@@ -1,12 +1,14 @@
-export const CARDS = [
-    {value:'A'},
-    {value:'B'},
-    {value:'C'},
-    {value:'D'},
-    {value:'E'},
-    {value:'F'},
-    {value:'G'},
-    {value:'H'},
-    {value:'I'},
-    {value:'J'},
+import type { Card } from '@/types/card'
+
+export const CARDS: Card[] = [
+  { value: '2' },
+  { value: '3' },
+  { value: '4' },
+  { value: '5' },
+  { value: '6' },
+  { value: '7' },
+  { value: 'Q' },
+  { value: 'J' },
+  { value: 'K' },
+  { value: 'A' },
 ]
