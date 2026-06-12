@@ -1,18 +1,18 @@
 import type { CardRank } from '@/types/card'
 
-export const CARD_BACK = '/cards/back.png'
+export const CARD_BACK = '/cards/back.webp'
 
 export const CARD_FACES: Record<CardRank, string> = {
-  '2': '/cards/2.png',
-  '3': '/cards/3.png',
-  '4': '/cards/4.png',
-  '5': '/cards/5.png',
-  '6': '/cards/6.png',
-  '7': '/cards/7.png',
-  Q: '/cards/Q.png',
-  J: '/cards/J.png',
-  K: '/cards/K.png',
-  A: '/cards/A.png',
+  '2': '/cards/2.webp',
+  '3': '/cards/3.webp',
+  '4': '/cards/4.webp',
+  '5': '/cards/5.webp',
+  '6': '/cards/6.webp',
+  '7': '/cards/7.webp',
+  Q: '/cards/Q.webp',
+  J: '/cards/J.webp',
+  K: '/cards/K.webp',
+  A: '/cards/A.webp',
 }
 
 export const getCardFace = (value: CardRank): string => {
