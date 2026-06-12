@@ -4,6 +4,8 @@ import DefaultButton from '@/components/ui/DefaultButton.vue'
 type Props = {
   playerName: string
   moves: number
+  matchedPairs: number
+  totalPairs: number
 }
 
 type Emits = {
@@ -25,6 +27,11 @@ const emit = defineEmits<Emits>()
       <p class="shrink-0 text-sm text-zinc-300">
         Tentativas:
         <span class="font-semibold text-zinc-100">{{ moves }}</span>
+      </p>
+
+      <p class="shrink-0 text-sm text-zinc-300">
+        Pares:
+        <span class="font-semibold text-zinc-100">{{ matchedPairs }}/{{ totalPairs }}</span>
       </p>
     </div>
 

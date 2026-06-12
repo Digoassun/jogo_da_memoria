@@ -5,6 +5,8 @@ import type { BoardCard } from '@/types/card'
 type Props = {
   cards: BoardCard[]
   isCardVisible: (card: BoardCard) => boolean
+  isCardMatched: (card: BoardCard) => boolean
+  isCardMismatch: (card: BoardCard) => boolean
   isReady?: boolean
 }
 
@@ -22,7 +24,14 @@ const emit = defineEmits<Emits>()
     :class="{ 'pointer-events-none opacity-70': isReady === false }"
     :aria-busy="isReady === false"
   >
-    <MemoryCard v-for="card in cards" :key="card.id" :card="card" :is-visible="isCardVisible(card)"
-      @click="emit('card-click', $event)" />
+    <MemoryCard
+      v-for="card in cards"
+      :key="card.id"
+      :card="card"
+      :is-visible="isCardVisible(card)"
+      :is-matched="isCardMatched(card)"
+      :is-mismatch="isCardMismatch(card)"
+      @click="emit('card-click', $event)"
+    />
   </div>
 </template>

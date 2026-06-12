@@ -28,7 +28,15 @@ export const useGame = () => {
     showVictoryModal.value = true
   }
 
-  const { boardCards, isCardVisible, onCardClick: handleCardClick } = useMemoryGame({
+  const {
+    boardCards,
+    isCardVisible,
+    isCardMatched,
+    isCardMismatch,
+    matchedPairsCount,
+    totalPairs,
+    onCardClick: handleCardClick,
+  } = useMemoryGame({
     onTurnComplete: () => gameStore.incrementMove(),
     onGameComplete: handleVictory,
   })
@@ -57,6 +65,10 @@ export const useGame = () => {
   return {
     boardCards,
     isCardVisible,
+    isCardMatched,
+    isCardMismatch,
+    matchedPairsCount,
+    totalPairs,
     onCardClick,
     isAssetsReady,
     playerName,
