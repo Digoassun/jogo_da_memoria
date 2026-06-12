@@ -1,51 +1,40 @@
 <script setup lang="ts">
-import { computed } from '@vue/reactivity'
-import { CARDS } from '../data/cards'
-import { reactive, ref, watch } from 'vue'
+import GameBoard from '@/components/game/GameBoard.vue'
+import GameHeader from '@/components/game/GameHeader.vue'
+import VictoryModal from '@/components/game/VictoryModal.vue'
+import { useGame } from '@/composables/useGame'
 
-type Card = {
-    value: string
-}
-const boardCards = computed(() => {
-    return [...CARDS, ...CARDS].sort(function () {
-        return Math.floor(Math.random() * 10);
-    });
-})
-
-const isFacingUp = reactive<Card[]>([])
-const isFacingDown = ref<boolean>(true)
-const isMatched = ref<boolean>(false)
-
-
-const isMatch = (arr: Card[]) => {
-    // for (let i = 0; i < arr.length; i++) {
-    //     if (arr.indexOf(arr[i]) !== arr.lastIndexOf(arr[i])) {
-    //         return true
-    //     }
-    // }
-    return false
-}
-const onCardClick = (card: Card) => {
-    isFacingUp.push(card)
-}
-
+const {
+  boardCards,
+  isCardVisible,
+  onCardClick,
+  playerName,
+  moves,
+  showVictoryModal,
+  lastEntryId,
+  handleGoHome,
+  handleVictoryGoHome,
+} = useGame()
 </script>
-<template>
-    <div class="board">
-        <div v-for="(card) in boardCards" @click="onCardClick(card)" class="card" key={{card.id}}>
-            {{ isFacingDown ? '???' : card.value }}
-        </div>
-    </div>
-</template>
-<style scoped>
-.board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
 
-.card {
-    border: 1px solid black;
-    padding: 12px;
-}
-</style>
+<template>
+  <main class="flex min-h-screen w-full flex-col items-center justify-center px-4 py-6">
+    <div class="flex w-full max-w-2xl flex-col items-center gap-6">
+      <GameHeader :player-name="playerName" :moves="moves" @go-home="handleGoHome" />
+      <GameBoard
+        class="w-full"
+        :cards="boardCards"
+        :is-card-visible="isCardVisible"
+        @card-click="onCardClick"
+      />
+    </div>
+
+    <VictoryModal
+      v-if="showVictoryModal && lastEntryId"
+      :entry-id="lastEntryId"
+      :player-name="playerName"
+      :moves="moves"
+      @go-home="handleVictoryGoHome"
+    />
+  </main>
+</template>
