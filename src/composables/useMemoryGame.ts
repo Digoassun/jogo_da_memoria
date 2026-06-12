@@ -14,6 +14,11 @@ export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
 
   const isFacingUp = reactive<number[]>([])
   const matchedIds = reactive<number[]>([])
+  const mismatchIds = reactive<number[]>([])
+
+  const totalPairs = CARDS.length
+
+  const matchedPairsCount = computed(() => matchedIds.length / 2)
 
   const isMatch = (cards: BoardCard[]) => {
     const first = cards[0]
@@ -25,6 +30,10 @@ export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
   const isCardVisible = (card: BoardCard) => {
     return matchedIds.includes(card.id) || isFacingUp.includes(card.id)
   }
+
+  const isCardMatched = (card: BoardCard) => matchedIds.includes(card.id)
+
+  const isCardMismatch = (card: BoardCard) => mismatchIds.includes(card.id)
 
   const isGameComplete = computed(
     () => matchedIds.length === boardCards.value.length && boardCards.value.length > 0,
@@ -55,8 +64,11 @@ export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
       return
     }
 
+    mismatchIds.splice(0, mismatchIds.length, ...facingUpIds)
+
     setTimeout(() => {
       isFacingUp.length = 0
+      mismatchIds.length = 0
     }, 1500)
   })
 
@@ -69,6 +81,10 @@ export const useMemoryGame = (callbacks?: MemoryGameCallbacks) => {
   return {
     boardCards,
     isCardVisible,
+    isCardMatched,
+    isCardMismatch,
+    matchedPairsCount,
+    totalPairs,
     onCardClick,
   }
 }
