@@ -9,10 +9,10 @@ const { inputPlayerName, nameError, handleSubmit, homeRankingEntries } = useHome
 
 <template>
   <main class="flex min-h-screen items-center justify-center p-4">
-    <section class="flex w-full max-w-sm flex-col items-center gap-8 lg:max-w-4xl">
+    <section class="flex w-full max-w-sm flex-col items-center lg:max-w-4xl">
       <img src="/logo.png" alt="Jogo da Memória" class="h-40 w-40" />
 
-      <div class="flex w-full flex-col gap-8  lg:flex-row lg:items-start lg:gap-0">
+      <div class="flex w-full flex-col gap-8 lg:flex-row items-center lg:gap-0 mb-8">
         <div class="flex w-full flex-1 flex-col items-center lg:px-8">
           <UserNameForm v-model="inputPlayerName" :error="nameError" @submit="handleSubmit" />
         </div>
